@@ -13,7 +13,7 @@ app.use(bodyParser.json({ limit: '50mb' }))
 app.use(bodyParser.urlencoded({ limit: '50mb' }));
 
 app.get('/', (req, res) => {
-    res.write(`<h3>Welcom to highcharts generator</h3>`);
+    res.write(`<h3>Welcom to Outgrow Reports generator</h3>`);
     res.end();
 })
 app.post('/reports',async(req,res)=>{
