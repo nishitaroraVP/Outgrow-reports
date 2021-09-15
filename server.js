@@ -86,7 +86,7 @@ app.post('/reports',async(req,res)=>{
         } catch (err) {
             return err;
         } finally {
-            let removeDir = `${__dirname}/../../pdf`;
+            let removeDir = `${__dirname}/reports`;
             fs.readdir(removeDir, (err, files) => {
                 if (err) return err;
                 for (const file of files) {
