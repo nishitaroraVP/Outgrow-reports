@@ -256,6 +256,7 @@ app.post('/analytics/reports', async (req, res) => {
             let pro = new Promise((resolve, reject) => {
                 let count = 1;
                 let uuidRp = uuid.v1().replace(/-/g, '');
+                console.log(mainhtml);
                 htmlPdf.create(mainhtml).toFile(`${reportPath}/${resultdata.report[0].report_name}-${uuidRp}.pdf`, async function (err, res) {
                     if (err) return console.log(err);
                     if (res) {
