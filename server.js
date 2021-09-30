@@ -239,7 +239,7 @@ app.post('/analytics/reports', async (req, res) => {
 
         <div style="float:none; width:100%; padding:20px; ">
       <div class="table-heading main-heading"><h1 class="abc">${resultdata.report[0].report_name}<span class="navbar-brand">
-      <img src="https://cdn.filestackcontent.com/CQfEt4okTAqGJ8kOrix1" alt="logo" > <span><b></b></span></span></h1> </div>
+      <img src="${resultdata.report[0].logo}" alt="logo" > <span><b></b></span></span></h1> </div>
       <div class="table-heading"><h2><b></b></h2></div>  
       <div class="table-heading"><h2><b>${resultdata.report[0].templateType} Name :</b> <span>${resultdata.report[0].url}</span></h2> </div>
         <div class="table-heading"><h2><b>Date Range :</b> <span>${(resultdata.report[0].series['start_date']).replace(/-/gmi, '/')} - ${(todayfulldate).replace(/-/gmi, '/')}</span></h2></div>
@@ -256,7 +256,6 @@ app.post('/analytics/reports', async (req, res) => {
             let pro = new Promise((resolve, reject) => {
                 let count = 1;
                 let uuidRp = uuid.v1().replace(/-/g, '');
-                console.log(mainhtml);
                 htmlPdf.create(mainhtml).toFile(`${reportPath}/${resultdata.report[0].report_name}-${uuidRp}.pdf`, async function (err, res) {
                     if (err) return console.log(err);
                     if (res) {
