@@ -239,7 +239,7 @@ app.post('/analytics/reports', async (req, res) => {
 
         <div style="float:none; width:100%; padding:20px; ">
       <div class="table-heading main-heading"><h1 class="abc">${resultdata.report[0].report_name}<span class="navbar-brand">
-      <img src="https://iili.io/Rml88P.png" alt="logo" > <span><b></b></span></span></h1> </div>
+      <img src="https://dlvkyia8i4zmz.cloudfront.net/klIvsXsSSymUC8HaCeYw_outgrow_976x240.svg" alt="logo" > <span><b></b></span></span></h1> </div>
       <div class="table-heading"><h2><b></b></h2></div>  
       <div class="table-heading"><h2><b>${resultdata.report[0].templateType} Name :</b> <span>${resultdata.report[0].url}</span></h2> </div>
         <div class="table-heading"><h2><b>Date Range :</b> <span>${(resultdata.report[0].series['start_date']).replace(/-/gmi, '/')} - ${(todayfulldate).replace(/-/gmi, '/')}</span></h2></div>
