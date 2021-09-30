@@ -265,7 +265,7 @@ app.post('/analytics/reports', async (req, res) => {
                         let mailD = new Promise((resolve, reject) => {
                             fs.readFile(`${reportPath}/${resultdata.report[0].report_name}-${uuidRp}.pdf`, function (err, data) {
 
-                                var base64data = new Buffer(data).toString('base64')
+                                var base64data = new Buffer.from(data).toString('base64')
                                 if (!resultdata.report[0].smtp) {
                                     let mail = {
                                         attachments: [{
@@ -293,7 +293,7 @@ app.post('/analytics/reports', async (req, res) => {
                                     let smtpData = {
                                         attachments: [{
                                             filename: `${resultdata.report[0].report_name}-${uuidRp}.pdf`,
-                                            content: new Buffer(data),
+                                            content: new Buffer.from(data).toString('base64'),
                                             type: 'application/pdf',
                                         }],
                                         html: resultdata.report[0].series.message,
