@@ -251,12 +251,14 @@ app.post('/analytics/reports', async (req, res) => {
             mainhtml = mainhtml.replace(/\n/gmi, '');
             let filename
             let reportPath = `${__dirname}/analyze-reports`;
-
+            let options = {
+                phantomArgs:["--ignore-ssl-errors=yes"]
+            };
 
             let pro = new Promise((resolve, reject) => {
                 let count = 1;
                 let uuidRp = uuid.v1().replace(/-/g, '');
-                htmlPdf.create(mainhtml).toFile(`${reportPath}/${resultdata.report[0].report_name}-${uuidRp}.pdf`, async function (err, res) {
+                htmlPdf.create(mainhtml,options).toFile(`${reportPath}/${resultdata.report[0].report_name}-${uuidRp}.pdf`, async function (err, res) {
                     if (err) return console.log(err);
                     if (res) {
                         console.log('pdf generated')
