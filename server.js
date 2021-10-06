@@ -37,9 +37,9 @@ app.post('/reports',async(req,res)=>{
                         bottom: "10mm",
                         left: "10mm",
                     },
-                   
+                    phantomArgs:["--ignore-ssl-errors=yes"]
                 };
-                options["format"] = "A4";
+            options["format"] = "A4";
             options["orientation"] = "portrait";
 
             let pdfPath = `${__dirname}/reports`;
