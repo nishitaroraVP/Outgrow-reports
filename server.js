@@ -6,6 +6,8 @@ const fs = require('fs');
 const path = require('path');
 const htmlPdf = require('html-pdf');
 const uuid = require('node-uuid');
+const AWS = require('aws-sdk');
+require('dotenv').config();
 
 app.listen(PORT, () => {
     console.log("server started on " + PORT);
@@ -79,12 +81,20 @@ app.post('/reports',async(req,res)=>{
                         }
                     });
             });
-            let resProm = await Promise.all([pro]);
+            if(calc && calc.is_new){
+                resProm = await Promise.all([pro,uploadPdfFileToS3(content,options,calc)]);
+            }else{
+                resProm = await Promise.all([pro]);
+            }
             if (resProm) {
                 // console.log('Attachments', attachments);
-                return res.json({ attach: attachments[0] });
+                if(resProm && resProm.length>1){
+                    return res.status(200).json({ attach: attachments[0],s3UploadData:resProm[1] });  
+                }
+                return res.status(200).json({ attach: attachments[0] });
             }
         } catch (err) {
+            console.error(err);
             return err;
         } finally {
             let removeDir = `${__dirname}/reports`;
@@ -325,6 +335,7 @@ app.post('/analytics/reports', async (req, res) => {
 
     }
     catch (err) {
+        console.error(err);
         return err;
     } finally {
         let removeDir = `${__dirname}/analyze-reports`;
@@ -338,6 +349,33 @@ app.post('/analytics/reports', async (req, res) => {
         });
     }
 })
+function uploadPdfFileToS3(html, options, app) {
+    return new Promise((resolve, reject) => {
+        htmlPdf.create(html, options).toBuffer(function (err, buffer) {
+                if (buffer && Buffer.isBuffer(buffer)) {
+                    let filename;
+                    // base64data = new Buffer(pdfData).toString("base64");
+                    const s3 = new AWS.S3({
+                        accessKeyId: process.env.AWS_ACCESS_KEY,
+                        secretAccessKey: process.env.AWS_SECRET_KEY
+                    });
+                    filename = app.name.replace(/[\s]+/g, '') + `${new Date().getTime()}.pdf`;
+                    const params = {
+                        Bucket: 'outgrow-content-pdf',
+                        Key: app.company.toString() + '/' + app._id.toString() + '/' + filename, // File name you want to save as in S3
+                        Body: buffer,
+                        ContentType: 'application/pdf',
+                    };
+                    s3.upload(params, async function (err, data) {
+                        if (err) {
+                            reject(err);
+                        }
+                        resolve(data);
+                    })
+                }
+            })
+    })
+}
 
 
 
