@@ -113,8 +113,6 @@ app.post('/reports',async(req,res)=>{
 app.post('/analytics/reports', async (req, res) => {
 
     try {
-
-
         let totalResults = req.body.totalResults;
         let todayfulldate = req.body.todayfulldate;
         let reportDataKeys = req.body.reportDataKeys;
