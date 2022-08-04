@@ -23,6 +23,7 @@ app.post('/reports',async(req,res)=>{
         let options={};
         try {
             let {content,calc,smtp} = req.body;
+            let visitorKey = req.body.visitorKey || '';
             content = content.replace(
                 /<a[^>]+class="tag_delete"[^>]*>.*?<\/a>/gi,
                 ""
@@ -81,8 +82,8 @@ app.post('/reports',async(req,res)=>{
                         }
                     });
             });
-            if(calc && calc.is_new){
-                resProm = await Promise.all([pro,uploadPdfFileToS3(content,options,calc)]);
+            if(calc && calc.is_new && visitorKey){
+                resProm = await Promise.all([uploadPdfFileToS3(content,options,calc)]);
             }else{
                 resProm = await Promise.all([pro]);
             }
